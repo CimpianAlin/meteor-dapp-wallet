@@ -11,7 +11,10 @@ FlowRouter.notFound = {
 };
 
 // redirect on start to dahsboard on file protocol
-if (location.origin === 'file://') {
+if (
+  location.origin === 'file://' ||
+  location.protocol === 'chrome-extension:'
+) {
   FlowRouter.wait();
   FlowRouter.initialize({ hashbang: true });
 

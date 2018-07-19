@@ -9,7 +9,7 @@
 
 // Change Default constants
 
-@colorLink: #02a8f3;
+@colorLink: rgb(255, 80, 0);
 
 @heightHeader: @gridWidth * 2.5;
 
@@ -60,19 +60,6 @@
   }
 }
 
-body {
-  background: @colorWinBackgroundFocus;
-
-  &.app-blur {
-    background: @colorWinBackgroundBlur;
-  }
-}
-.app-blur {
-  .dapp-header {
-    background: @colorWinBackgroundBlur;
-  }
-}
-
 // WINDOWS
 .win32 {
   .dapp-header {
@@ -100,7 +87,13 @@ body {
   }
   .dapp-header {
     background-color: @colorLinuxBackgroundFocus;
-    .background-image(linear-gradient(to bottom,  @colorLinuxBackgroundFocus 20%, lighten(@colorLinuxBackgroundFocus, 5%) 90%));
+    .background-image(
+      linear-gradient(
+        to bottom,
+        @colorLinuxBackgroundFocus 20%,
+        lighten(@colorLinuxBackgroundFocus, 5%) 90%
+      )
+    );
     color: @colorWhite;
 
     nav a,
@@ -126,7 +119,13 @@ body {
   }
   .dapp-header {
     background-color: @colorOSBackgroundFocus;
-    .background-image(linear-gradient(to top,  @colorOSBackgroundFocus 20%, lighten(@colorOSBackgroundFocus, 10%) 90%));
+    .background-image(
+      linear-gradient(
+        to top,
+        @colorOSBackgroundFocus 20%,
+        lighten(@colorOSBackgroundFocus, 10%) 90%
+      )
+    );
 
     nav > ul {
       margin-left: @gridWidth;
@@ -148,10 +147,9 @@ body {
 .dapp-header {
   padding-right: @gridWidth * 2.5;
   padding-left: @gridWidth * 2.5;
-  background-color: @colorWinBackgroundFocus;
-  -webkit-app-region: drag; // necessary to drag the wallet window
-  .background-image(linear-gradient(to bottom,  @colorWinBackgroundFocus 50%, #ddd9d9 90%));
-  background: #f0f0f0;
+  background: transparent;
+  display: block;
+  height: auto;
 
   &.dapp-small {
     z-index: 30;
@@ -188,10 +186,6 @@ body {
     padding-left: @gridWidth * 0.5;
   }
 
-  nav ul a.active {
-    color: @colorTextSecondary;
-  }
-
   .block-info {
     padding-bottom: @defaultPaddingVertical;
     color: lighten(@colorGrayDark, 5%);
@@ -214,7 +208,7 @@ body {
   .block-syncing {
     padding-bottom: 11px;
     flex: auto;
-    text-align: center;
+    text-align: right;
     .sync-divider {
       color: #bbb;
       padding: 0 2px;
@@ -238,18 +232,23 @@ body {
 
     h3 {
       margin-bottom: 0;
+      color: #222;
     }
 
     span.account-balance {
-      color: @colorTextSecondary;
-      font-size: 1.6em;
+      color: @colorLink;
+      font-weight: 500;
+      font-size: 2em;
 
       .inline-form {
+        font-size: 0.7em;
+        display: block;
         > .simple-modal {
           min-width: 70px;
         }
         > button {
           padding: 0;
+          color: #efefef;
         }
       }
     }
@@ -500,14 +499,26 @@ body {
 .dapp-actionbar nav ul li a,
 .dapp-actionbar nav ul li a:visited {
   color: @colorLink;
+  border: 0;
 }
 
 .dapp-header nav > ul > li.active a,
 .dapp-header nav > ul > li.active button,
 .dapp-header nav > ul > li button.active,
 .dapp-header nav > ul > li a.active {
-  color: #003a54;
-  border-bottom: 8px solid #fff;
+  border: 0;
+  color: #fff !important;
+  background-color: @colorLink;
+}
+
+.dapp-header nav > ul > li a {
+  border: 0;
+  color: #222 !important;
+  background-color: #fff;
+  margin-left: 10px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  border-radius: 5px;
 }
 
 .account-send-form {
@@ -900,7 +911,7 @@ h6 {
 }
 
 .dapp-flex-content {
-  background: #fff;
+  background: #fafafa;
 }
 
 h1 {
@@ -960,13 +971,13 @@ span.address.not-ens-name {
 
 /* Custom icon size for auto-scan button on contracts.html */
 .account-pattern .icon-target {
-    font-size: 0.5em;
+  font-size: 0.5em;
 }
 
 button.token-auto-scan {
-    &:hover {
-        cursor: pointer;
-    }
+  &:hover {
+    cursor: pointer;
+  }
 }
 
 table.transactions {
@@ -983,4 +994,14 @@ table.transactions {
   i {
     margin-right: 3px;
   }
+}
+
+.overlapping-header {
+  margin-bottom: 60px;
+}
+
+nav {
+  background: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 3px;
 }
