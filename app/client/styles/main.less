@@ -147,38 +147,15 @@
 .dapp-header {
   padding-right: @gridWidth * 2.5;
   padding-left: @gridWidth * 2.5;
-  background: transparent;
+  background: #fafafa;
   display: block;
   height: auto;
 
-  &.dapp-small {
-    z-index: 30;
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    .dapp-shadow-medium;
-
-    .block-info {
-      padding-bottom: @defaultPaddingVertical - 2;
-    }
-
-    .wallet-balance,
-    .block-info {
-      .text,
-      h3 {
-        display: none;
-      }
-
-      .red {
-        display: none;
-      }
-    }
-
-    &.dapp-full-header + .dapp-flex-content {
-      margin-top: @gridHeight * 3.5;
-    }
-  }
+  z-index: 30;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 
   &.dapp-full-header {
     padding-top: @gridHeight * 4.5;

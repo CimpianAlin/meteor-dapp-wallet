@@ -53,8 +53,8 @@ var checkSync = function() {
         collectionObservers = [];
       } else if (_.isObject(syncing)) {
         syncing.progress = Math.floor(
-          (syncing.currentBlock - syncing.startingBlock) /
-            (syncing.highestBlock - syncing.startingBlock) *
+          ((syncing.currentBlock - syncing.startingBlock) /
+            (syncing.highestBlock - syncing.startingBlock)) *
             100
         );
         syncing.blockDiff = numeral(
@@ -74,7 +74,12 @@ var checkSync = function() {
     })
     .catch(function(error) {
       console.log('Error: ', error);
-      if (error.toString().toLowerCase().includes('connection not open')) {
+      if (
+        error
+          .toString()
+          .toLowerCase()
+          .includes('connection not open')
+      ) {
         showModal();
       } else {
         // retry
@@ -142,7 +147,12 @@ var connect = function() {
     })
     .catch(function(error) {
       console.log('Error: ', error);
-      if (error.toString().toLowerCase().includes('connection not open')) {
+      if (
+        error
+          .toString()
+          .toLowerCase()
+          .includes('connection not open')
+      ) {
         showModal();
       } else {
         // retry
@@ -158,4 +168,24 @@ Meteor.startup(function() {
     connect();
     checkSync();
   }, 3000);
+
+  Tracker.nonreactive(function() {
+    function observeCb() {
+      if (!window.chrome || !window.chrome.ipcRenderer) return;
+      const wallets = EthAccounts.find(
+        {},
+        { fields: { address: 1, name: 1 } }
+      ).fetch();
+      window.chrome.ipcRenderer.send(
+        'eth-wallet-wallets',
+        JSON.stringify(wallets)
+      );
+    }
+
+    EthAccounts.find().observe({
+      added: observeCb,
+      changed: observeCb,
+      removed: observeCb
+    });
+  });
 });
