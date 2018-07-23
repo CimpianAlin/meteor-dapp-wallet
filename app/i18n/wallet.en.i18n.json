@@ -21,7 +21,9 @@
         "addWallet": "Add wallet contract",
         "addAccount": "Add account",
         "addToken": "Watch token",
-        "tokenAutoScan": "Auto-Scan"
+        "tokenAutoScan": "Auto-Scan",
+        "sendBrave": "Fund Brave Wallet",
+        "newWallet": "New Wallet"
       },
       "texts": {
         "note": "Note",

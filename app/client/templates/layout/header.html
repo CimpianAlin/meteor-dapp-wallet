@@ -44,7 +44,7 @@
         </div>
     </div>
     <nav>
-        <ul>
+        <ul class="nav">
             <li>
                 <a href="{{pathFor route='dashboard'}}" class="{{isActiveRoute regex='dashboard'}}">
                     <i class="icon-wallet"></i>
@@ -63,11 +63,26 @@
                     <span>{{i18n 'wallet.app.buttons.contracts'}}</span>
                 </a>
             </li>
+        </ul>
+        <ul class="balance">
             <li class="wallet-balance">
                 <h3>{{i18n 'wallet.app.texts.balance'}}</h3>
                 {{> elements_balance balance=totalBalance changeUnit=true}}
             </li>
-
-            </ul>
+        </ul>
+        <ul class="actions">
+            <li class="send-brave">
+                <a href="{{goToSendBrave}}">
+                    <i class="icon-docs"></i>
+                    <span>{{i18n 'wallet.app.buttons.sendBrave'}}</span>
+                </a>
+            </li>
+            <li class="new-wallet">
+                <a href="#">
+                    <i class="icon-docs"></i>
+                    <span>{{i18n 'wallet.app.buttons.newWallet'}}</span>
+                </a>
+            </li>
+        </ul>
     </nav>
 </template>

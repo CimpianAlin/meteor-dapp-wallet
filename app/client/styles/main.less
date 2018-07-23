@@ -203,8 +203,9 @@
 
   .wallet-balance {
     padding-bottom: @defaultPaddingVertical - 5px;
-    padding-left: @defaultPaddingHorizontal;
-    text-align: right;
+    text-align: left;
+    margin-left: auto;
+    margin-right: auto;
     flex: 0 2 auto;
 
     h3 {
@@ -889,6 +890,7 @@ h6 {
 
 .dapp-flex-content {
   background: #fafafa;
+  margin-top: 250px;
 }
 
 h1 {
@@ -981,4 +983,21 @@ nav {
   background: rgba(0, 0, 0, 0.2);
   padding: 15px;
   border-radius: 3px;
+
+  display: flex;
+
+  .nav {
+    flex: 1;
+    text-align: left;
+  }
+
+  .balance {
+    flex: 1;
+    text-align: center;
+  }
+
+  .actions {
+    flex: 1;
+    text-align: right;
+  }
 }
