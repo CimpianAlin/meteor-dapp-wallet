@@ -136,5 +136,9 @@ Template['layout_header'].helpers({
       Helpers.rerun['1s'].tick();
       return TAPi18n.__('wallet.app.texts.timeSinceBlock');
     }
+  },
+  goToSendBrave: function() {
+    FlowRouter.watchPathChange();
+    return FlowRouter.path('sendTo', { address: window.batAddress.get() });
   }
 });

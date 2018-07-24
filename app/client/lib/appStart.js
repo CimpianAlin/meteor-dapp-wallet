@@ -161,6 +161,17 @@ var connect = function() {
     });
 };
 
+window.batAddress = new ReactiveVar();
+if (window.chrome && window.chrome.ipcRenderer) {
+  window.chrome.ipcRenderer.on(
+    'popup-bat-balance',
+    (e, amount, walletAddress) => {
+      window.batAddress.set(walletAddress);
+    }
+  );
+  window.chrome.ipcRenderer.send('get-popup-bat-balance');
+}
+
 Meteor.startup(function() {
   // delay so we make sure the data is already loaded from the indexedDB
   // TODO improve persistent-minimongo2 ?

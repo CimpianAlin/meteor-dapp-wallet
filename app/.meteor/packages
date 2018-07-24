@@ -53,3 +53,4 @@ ethereum:tools@1.1.0
 ethereum:elements@1.1.0
 ethereum:web3@1.0.0-beta.33
 3stack:bignumber
+reactive-var
