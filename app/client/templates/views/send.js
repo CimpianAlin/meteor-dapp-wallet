@@ -757,58 +757,21 @@ Template['views_send'].events({
           console.log('Gas Price: ' + gasPrice);
           console.log('Amount:', amount);
 
+          var tx = {
+            from: selectedAccount.address,
+            to: to,
+            data: data,
+            value: amount,
+            gasPrice: gasPrice,
+            gas: estimatedGas,
+            contract: contract
+          };
+
           web3.eth
-            .sendTransaction(
-              {
-                from: selectedAccount.address,
-                to: to,
-                data: data,
-                value: amount,
-                gasPrice: gasPrice,
-                gas: estimatedGas
-              },
-              function(error, txHash) {
-                TemplateVar.set(template, 'sending', false);
-
-                if (error) {
-                  console.log(
-                    'Error from simple sendTransaction: ',
-                    error,
-                    txHash
-                  );
-                  // EthElements.Modal.hide();
-                  GlobalNotification.error({
-                    content: translateExternalErrorMessage(error.message),
-                    duration: 8
-                  });
-                  return;
-                }
-
-                console.log('SEND simple');
-
-                data =
-                  !to && contract ? { contract: contract, data: data } : data;
-
-                addTransactionAfterSend(
-                  txHash,
-                  amount,
-                  selectedAccount.address,
-                  to,
-                  gasPrice,
-                  estimatedGas,
-                  data
-                );
-
-                localStorage.setItem(
-                  'contractSource',
-                  Helpers.getDefaultContractExample()
-                );
-                localStorage.setItem('compiledContracts', null);
-                localStorage.setItem('selectedContract', null);
-
-                FlowRouter.go('dashboard');
-              }
-            )
+            .sendTransaction(tx, function(error, txHash) {
+              TemplateVar.set(template, 'sending', false);
+              simpleSendTransactionCb(error, txHash, tx);
+            })
             .on('receipt', function(receipt) {
               console.log('Transaction receipt: ', receipt);
             });
@@ -848,3 +811,76 @@ Template['views_send'].events({
     }
   }
 });
+
+function simpleSendTransactionCb(error, txHash, tx) {
+  if (error) {
+    console.log('Error from simple sendTransaction: ', error, txHash);
+
+    if (error.message.match(/authentication.*unlock/)) {
+      EthElements.Modal.question(
+        {
+          template: 'views_modals_unlockAccount',
+          data: {
+            from: tx.from
+          },
+          ok: function(pw) {
+            if (window.chrome && window.chrome.ipcRenderer) {
+              window.chrome.ipcRenderer.send(
+                'eth-wallet-unlock-account',
+                JSON.stringify([pw, tx])
+              );
+            } else {
+              console.error('no ipcRenderer, can not unlock account');
+            }
+          },
+          cancel: true
+        },
+        {
+          class: 'unlock-account'
+        }
+      );
+    }
+
+    // EthElements.Modal.hide();
+    GlobalNotification.error({
+      content: translateExternalErrorMessage(error.message),
+      duration: 8
+    });
+    return;
+  }
+
+  console.log('SEND simple');
+
+  let { data, value, from, to, gasPrice, gas, contract } = tx;
+
+  data = !to && contract ? { contract: contract, data: data } : data;
+
+  addTransactionAfterSend(txHash, value, from, to, gasPrice, gas, data);
+
+  localStorage.setItem('contractSource', Helpers.getDefaultContractExample());
+  localStorage.setItem('compiledContracts', null);
+  localStorage.setItem('selectedContract', null);
+
+  FlowRouter.go('dashboard');
+}
+
+window.chrome &&
+  window.chrome.ipcRenderer &&
+  window.chrome.ipcRenderer.on('eth-wallet-retry-tx', function(e, txString) {
+    const tx = JSON.parse(txString);
+    web3.eth.sendTransaction(tx, function(error, txHash) {
+      simpleSendTransactionCb(error, txHash, tx);
+    });
+  });
+
+window.chrome &&
+  window.chrome.ipcRenderer &&
+  window.chrome.ipcRenderer.on('eth-wallet-notification-error', function(
+    e,
+    message
+  ) {
+    GlobalNotification.error({
+      content: message,
+      duration: 8
+    });
+  });

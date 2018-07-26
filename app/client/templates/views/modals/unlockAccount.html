@@ -1,0 +1,9 @@
+<template name="views_modals_unlockAccount">
+    <h1>
+        {{i18n "wallet.modals.unlockAccount.title"}}
+    </h1>
+    <p>
+        {{> elements_account_link address=from}}
+    </p>
+    {{i18n "app.password"}}: <input type="password" class="password">
+</template>
