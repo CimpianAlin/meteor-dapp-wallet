@@ -44,42 +44,50 @@
         </div>
     </div>
     <nav>
+        <h3>{{i18n 'wallet.app.texts.views'}}</h3>
+        <h3 class="balance">{{i18n 'wallet.app.texts.balance'}}</h3>
+        <div class="actions-wrapper">
+          <h3>{{i18n 'wallet.app.texts.actions'}}</h3>
+          <a class="metamask" href="#">
+            <span>{{i18n 'wallet.app.texts.enableMetaMask'}}</span>
+            <img class="metamask-image" src="../../../eth_icons/metamask.svg">
+          </a>
+        </div>
         <ul class="nav">
             <li>
                 <a href="{{pathFor route='dashboard'}}" class="{{isActiveRoute regex='dashboard'}}">
-                    <i class="icon-wallet"></i>
-                    <span>{{i18n 'wallet.app.buttons.wallet'}}</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{goToSend}}" class="{{isActiveRoute regex='send'}}">
-                    <i class="icon-arrow-up"></i>
-                    <span>{{i18n 'wallet.app.buttons.send'}}</span>
+                    <img src="../../../eth_icons/wallet_manage.svg">
+                    <span>{{i18n 'wallet.app.buttons.wallets'}}</span>
                 </a>
             </li>
             <li>
                 <a href="{{pathFor route='contracts'}}" class="{{isActiveRoute regex='contracts'}}">
-                    <i class="icon-docs"></i>
+                    <img src="../../../eth_icons/wallet_contracts.svg">
                     <span>{{i18n 'wallet.app.buttons.contracts'}}</span>
                 </a>
+            </li>
+            <li>
+              <a href="{{goToSend}}" class="{{isActiveRoute regex='send'}}">
+                  <img src="../../../eth_icons/send.svg">
+                  <span>{{i18n 'wallet.app.buttons.send'}}</span>
+              </a>
             </li>
         </ul>
         <ul class="balance">
             <li class="wallet-balance">
-                <h3>{{i18n 'wallet.app.texts.balance'}}</h3>
                 {{> elements_balance balance=totalBalance changeUnit=true}}
             </li>
         </ul>
         <ul class="actions">
             <li class="send-brave">
                 <a href="{{goToSendBrave}}">
-                    <i class="icon-docs"></i>
+                    <img class="fund-wallet-icon" src="../../../eth_icons/bat.svg">
                     <span>{{i18n 'wallet.app.buttons.sendBrave'}}</span>
                 </a>
             </li>
             <li class="new-wallet">
                 <a href="#">
-                    <i class="icon-docs"></i>
+                    <img src="../../../eth_icons/wallet_add.svg">
                     <span>{{i18n 'wallet.app.buttons.newWallet'}}</span>
                 </a>
             </li>

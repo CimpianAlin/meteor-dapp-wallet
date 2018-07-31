@@ -12,7 +12,7 @@
   "wallet": {
     "app": {
       "buttons": {
-        "wallet": "Wallets",
+        "wallets": "Wallets",
         "send": "Send",
         "contracts": "Contracts",
         "deploy": "Deploy",
@@ -23,11 +23,14 @@
         "addToken": "Watch token",
         "tokenAutoScan": "Auto-Scan",
         "sendBrave": "Fund Brave Wallet",
-        "newWallet": "New Wallet"
+        "newWallet": "New ETH Wallet"
       },
       "texts": {
         "note": "Note",
-        "balance": "Balance",
+        "balance": "ETH Wallet Balance",
+        "views": "Views",
+        "actions": "Actions",
+        "enableMetaMask": "Enable MetaMask",
         "connecting": "Connecting...",
         "connectionErrorMist":
           "Unable to connect. Please start geth using:<br><br><small><code>__node__</code><br><br>Make sure you set your IPC path to the default one, when using a different <code>datadir</code>, e.g.<br><code>geth --datadir ... --ipcpath /Users/&lt;yourUser&gt;/Library/Ethereum/geth.ipc</code><br>or<br><code>geth --datadir ... --ipcpath /Users/&lt;yourUser&gt;/.ethereum/geth.ipc</code>. <br><br>Optional add: <code>--unlock &lt;yourAccount&gt;</code></small>",
