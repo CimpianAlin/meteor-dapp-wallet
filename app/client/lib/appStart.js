@@ -169,7 +169,14 @@ if (window.chrome && window.chrome.ipcRenderer) {
       window.batAddress.set(walletAddress);
     }
   );
-  window.chrome.ipcRenderer.send('get-popup-bat-balance');
+
+  function updateBATAddress() {
+    if (!window.batAddress.get()) {
+      window.chrome.ipcRenderer.send('get-popup-bat-balance');
+      setTimeout(updateBATAddress, 1000);
+    }
+  }
+  updateBATAddress();
 }
 
 Meteor.startup(function() {
