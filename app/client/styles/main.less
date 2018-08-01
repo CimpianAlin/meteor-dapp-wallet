@@ -202,10 +202,7 @@
   }
 
   .wallet-balance {
-    padding-bottom: @defaultPaddingVertical - 5px;
     text-align: left;
-    margin-left: auto;
-    margin-right: auto;
     flex: 0 2 auto;
 
     h3 {
@@ -215,8 +212,7 @@
 
     span.account-balance {
       color: @colorLink;
-      font-weight: 500;
-      font-size: 2em;
+      font-size: 2.4em;
 
       .inline-form {
         font-size: 0.7em;
@@ -489,13 +485,61 @@
   background-color: @colorLink;
 }
 
+.dapp-header nav > ul > li a.active img {
+  filter: brightness(0) invert(1);
+}
+
 .dapp-header nav > ul > li a {
   border: 0;
   color: #222 !important;
   background-color: #fff;
-  margin-left: 10px;
   padding-top: 10px;
   padding-bottom: 10px;
+  min-width: 130px;
+
+  &:active {
+    transform: none;
+  }
+}
+
+.dapp-header nav > ul > li {
+  width: fit-content;
+
+  &:hover {
+    a {
+      filter: none;
+    }
+  }
+}
+
+.dapp-header nav > ul > li {
+  &:first-child {
+    a {
+      border-top-left-radius: 5px;
+      border-bottom-left-radius: 5px;
+    }
+  }
+
+  &:not(:first-child):not(:last-child) {
+    a {
+      border-left: 1px solid #ECECEF;
+      border-right: 1px solid #ECECEF;
+      &:hover {
+        border-left: 1px solid transparent;
+        border-right: 1px solid transparent;
+      }
+    }
+  }
+
+  &:last-child {
+    a {
+      border-top-right-radius: 5px;
+      border-bottom-right-radius: 5px;
+    }
+  }
+}
+
+.dapp-header nav > ul:not(.nav) > li a {
   border-radius: 5px;
 }
 
@@ -878,19 +922,13 @@
   }
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'Source Sans Pro', 'Helvetica Neue', Helvetica, Arial,
-    'sans-serif';
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif
 }
 
 .dapp-flex-content {
   background: #fafafa;
-  margin-top: 250px;
+  margin-top: 280px;
 }
 
 h1 {
@@ -980,24 +1018,109 @@ table.transactions {
 }
 
 nav {
-  background: rgba(0, 0, 0, 0.2);
-  padding: 15px;
+  background: #ECECEF;
+  padding: 30px;
   border-radius: 3px;
+  display: grid;
+  width: 1200px !important;
+  height: 100%;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: auto 1fr;
 
-  display: flex;
-
-  .nav {
-    flex: 1;
-    text-align: left;
+  .actions-wrapper {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding: 0 1.5em;
   }
 
-  .balance {
-    flex: 1;
-    text-align: center;
+  h3 {
+    margin: 5px 0;
+    text-transform: capitalize;
+    font-weight: normal;
+    color: #424242;
+
+    &.balance {
+      margin: 5px 5em;
+    }
   }
 
-  .actions {
-    flex: 1;
+  > ul {
+    display: flex;
+    align-items: center !important;
+
+    &.nav, &.actions {
+      li:not(.send-brave) {
+        img {
+          filter: grayscale(100%);
+        }
+      }
+
+      > li:hover {
+        img {
+          filter: none;
+        }
+      }
+    }
+
+    &.balance {
+      margin: 0 5em;
+    }
+
+    &.actions {
+      display: flex;
+      justify-content: space-between;
+      padding: 0 1.5em;
+
+      .send-brave {
+        .fund-wallet-icon {
+          filter: grayscale(100%);
+        }
+
+        &:hover {
+          .fund-wallet-icon {
+            filter: none;
+          }
+        }
+      }
+    }
+
+    > li {
+      > a {
+        span {
+          text-transform: capitalize;
+          font-size: 12px;
+          margin-top: 5px;
+        }
+      }
+      > a:not(.active) {
+        span {
+          color: #424242;
+        }
+      }
+    }
+  }
+
+  .metamask {
+    text-align: right;
+    font-size: 12px;
+    color: #828282;
+    margin: 5px 0;
+
+    &:hover {
+      color: #ff5000
+    }
+
+    > * {
+      display: inline-block;
+      vertical-align: middle;
+    }
+
+    .metamask-image {
+      width: 18px;
+    }
+  }
+
+  .new-wallet {
     text-align: right;
   }
 }
