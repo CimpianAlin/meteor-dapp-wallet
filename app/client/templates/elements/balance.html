@@ -5,12 +5,8 @@
         {{! getBalance is necessary to make the count up/down animation work}}
         {{getBalance}}
 
-        {{#if changeUnit}}
-            {{> elements_selectableUnit}}
-        {{else}}
             <span>
-                {{unit}}
+                ETH
             </span>
-        {{/if}}
     </span>
 </template>

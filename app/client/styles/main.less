@@ -58,6 +58,8 @@
       margin-bottom: @gridHeight * 2;
     }
   }
+
+  overflow: auto;
 }
 
 // WINDOWS
@@ -144,18 +146,27 @@
   -webkit-app-region: drag; // necessary to drag the wallet window
 }
 
+.dapp-flex-content {
+  flex-direction: column;
+  background: transparent !important;
+}
+
 .dapp-header {
   padding-right: @gridWidth * 2.5;
   padding-left: @gridWidth * 2.5;
-  background: #fafafa;
+  background: transparent !important;
   display: block;
   height: auto;
+  flex: 0;
 
-  z-index: 30;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  @media (max-width: 1200px) {
+    padding-right: @gridWidth;
+    padding-left: @gridWidth;
+  }
+  @media (max-width: 1050px) {
+    padding-right: @gridWidth * 0.5;
+    padding-left: @gridWidth * 0.5;
+  }
 
   &.dapp-full-header {
     padding-top: @gridHeight * 4.5;
@@ -217,12 +228,11 @@
       .inline-form {
         font-size: 0.7em;
         display: block;
+        padding-left: 0;
+        padding-top: 0;
+
         > .simple-modal {
           min-width: 70px;
-        }
-        > button {
-          padding: 0;
-          color: #efefef;
         }
       }
     }
@@ -522,8 +532,8 @@
 
   &:not(:first-child):not(:last-child) {
     a {
-      border-left: 1px solid #ECECEF;
-      border-right: 1px solid #ECECEF;
+      border-left: 1px solid #ececef;
+      border-right: 1px solid #ececef;
       &:hover {
         border-left: 1px solid transparent;
         border-right: 1px solid transparent;
@@ -923,12 +933,13 @@
 }
 
 body {
-  font-family: "Helvetica Neue", Arial, sans-serif
+  font-family: 'Helvetica Neue', Arial, sans-serif;
 }
 
+html,
+body,
 .dapp-flex-content {
-  background: #fafafa;
-  margin-top: 280px;
+  height: 100%;
 }
 
 h1 {
@@ -1015,22 +1026,29 @@ table.transactions {
 
 .overlapping-header {
   margin-bottom: 60px;
+  min-height: 48px;
 }
 
 nav {
-  background: #ECECEF;
-  padding: 30px;
+  background: #ececef;
+  padding: 30px 20px;
   border-radius: 3px;
   display: grid;
-  width: 1200px !important;
-  height: 100%;
-  grid-template-columns: 1fr 1fr 1fr;
+  width: 100%;
+  min-width: 930px;
+  height: 162px;
+  grid-template-columns: 1fr auto 1fr;
   grid-template-rows: auto 1fr;
 
   .actions-wrapper {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
+    display: flex;
+    justify-content: flex-end;
     padding: 0 1.5em;
+
+    > * {
+      width: 160px;
+      display: inline-block;
+    }
   }
 
   h3 {
@@ -1038,9 +1056,10 @@ nav {
     text-transform: capitalize;
     font-weight: normal;
     color: #424242;
+    white-space: nowrap;
 
     &.balance {
-      margin: 5px 5em;
+      margin: 5px auto;
     }
   }
 
@@ -1048,7 +1067,8 @@ nav {
     display: flex;
     align-items: center !important;
 
-    &.nav, &.actions {
+    &.nav,
+    &.actions {
       li:not(.send-brave) {
         img {
           filter: grayscale(100%);
@@ -1063,12 +1083,12 @@ nav {
     }
 
     &.balance {
-      margin: 0 5em;
+      margin: 0 auto;
     }
 
     &.actions {
       display: flex;
-      justify-content: space-between;
+      justify-content: flex-end;
       padding: 0 1.5em;
 
       .send-brave {
@@ -1081,12 +1101,15 @@ nav {
             filter: none;
           }
         }
+
+        margin-right: 10px;
       }
     }
 
     > li {
       > a {
         span {
+          white-space: nowrap;
           text-transform: capitalize;
           font-size: 12px;
           margin-top: 5px;
@@ -1107,7 +1130,7 @@ nav {
     margin: 5px 0;
 
     &:hover {
-      color: #ff5000
+      color: #ff5000;
     }
 
     > * {
@@ -1123,4 +1146,12 @@ nav {
   .new-wallet {
     text-align: right;
   }
+}
+
+body {
+  background-color: transparent !important;
+}
+
+.dapp-modal-container {
+  min-width: 600px !important;
 }
