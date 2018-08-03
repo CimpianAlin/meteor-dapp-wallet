@@ -46,6 +46,7 @@
   padding: @defaultPaddingVertical @defaultPaddingHorizontal*2.5
     @defaultPaddingVertical*2;
   max-width: none;
+  padding-top: 287px;
 
   .dapp-container {
     max-width: none;
@@ -59,79 +60,13 @@
     }
   }
 
-  overflow: auto;
-}
-
-// WINDOWS
-.win32 {
-  .dapp-header {
-    background-color: @colorWinBackgroundFocus;
-    background-image: none;
-
-    &.dapp-small {
-      .box-shadow(none);
-      .dapp-shadow-small;
-    }
+  @media (max-width: 1200px) {
+    padding-right: @gridWidth;
+    padding-left: @gridWidth;
   }
-}
-// LINUX
-.linux {
-  body {
-    background: @colorLinuxBackgroundFocus;
-
-    &.app-blur {
-      background: @colorLinuxBackgroundBlur;
-
-      .dapp-header {
-        background: @colorLinuxBackgroundBlur;
-      }
-    }
-  }
-  .dapp-header {
-    background-color: @colorLinuxBackgroundFocus;
-    .background-image(
-      linear-gradient(
-        to bottom,
-        @colorLinuxBackgroundFocus 20%,
-        lighten(@colorLinuxBackgroundFocus, 5%) 90%
-      )
-    );
-    color: @colorWhite;
-
-    nav a,
-    .block-info,
-    .wallet-balance h3,
-    .wallet-balance span.account-balance {
-      color: @colorWhite;
-    }
-  }
-}
-// MAC
-.darwin {
-  body {
-    background: @colorOSBackgroundBlur;
-
-    &.app-blur {
-      background: lighten(@colorOSBackgroundBlur, 10%);
-
-      .dapp-header {
-        background: @colorOSBackgroundBlur;
-      }
-    }
-  }
-  .dapp-header {
-    background-color: @colorOSBackgroundFocus;
-    .background-image(
-      linear-gradient(
-        to top,
-        @colorOSBackgroundFocus 20%,
-        lighten(@colorOSBackgroundFocus, 10%) 90%
-      )
-    );
-
-    nav > ul {
-      margin-left: @gridWidth;
-    }
+  @media (max-width: 1050px) {
+    padding-right: @gridWidth * 0.5;
+    padding-left: @gridWidth * 0.5;
   }
 }
 
@@ -146,18 +81,16 @@
   -webkit-app-region: drag; // necessary to drag the wallet window
 }
 
-.dapp-flex-content {
-  flex-direction: column;
-  background: transparent !important;
-}
-
 .dapp-header {
   padding-right: @gridWidth * 2.5;
   padding-left: @gridWidth * 2.5;
-  background: transparent !important;
+  background: #fafafa;
   display: block;
   height: auto;
-  flex: 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
 
   @media (max-width: 1200px) {
     padding-right: @gridWidth;
@@ -191,6 +124,12 @@
     i {
       font-size: 0.7em;
     }
+  }
+
+  ul.balance,
+  h3.balance {
+    padding: 0 10px;
+    white-space: nowrap;
   }
 
   .block-syncing {
@@ -237,10 +176,6 @@
       }
     }
   }
-}
-
-.dapp-header.dapp-small + .dapp-flex-content > .dapp-content {
-  padding-top: @gridHeight * 6 - 3px;
 }
 
 .account-balance {
@@ -473,10 +408,6 @@
     float: left;
     margin-right: @defaultMargin / 2;
   }
-}
-
-.dapp-full-header + .dapp-flex-content .accounts-page .dapp-sticky-bar.sticky {
-  top: floor(@gridHeight * 5.5);
 }
 
 .dapp-actionbar nav ul li button,
@@ -934,11 +865,14 @@
 
 body {
   font-family: 'Helvetica Neue', Arial, sans-serif;
+  height: 100%;
+  width: 100%;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 html,
-body,
-.dapp-flex-content {
+body {
   height: 100%;
 }
 
@@ -1045,8 +979,12 @@ nav {
     justify-content: flex-end;
     padding: 0 1.5em;
 
-    > * {
-      width: 160px;
+    > h3 {
+      width: 161px;
+      margin-right: 10px;
+    }
+    > .metamask {
+      width: 150px;
       display: inline-block;
     }
   }
