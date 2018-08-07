@@ -103,12 +103,13 @@
           "Please pick a password for the new wallet. You would need it to unlock the wallet every time you move money from it."
       },
       "makePassword": {
-        "title": "Create a new password",
-        "text": "The password will be used to encrypt wallets"
+        "title": "Pick a password for ETH Wallet",
+        "text":
+          "This password will be used to protect the keys for all your accounts."
       },
       "enterPassword": {
-        "title": "Unlock account",
-        "text": "Enter the password to decrypt wallets"
+        "title": "Unlock ETH Wallet",
+        "text": "Enter the password to decrypt wallets."
       }
     },
     "accounts": {
