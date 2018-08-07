@@ -53,6 +53,7 @@ Template['elements_balance'].helpers({
     @method (getBalance)
     */
   getBalance: function() {
+    if (!globalReady.get()) return '---';
     var data = this,
       template = Template.instance(),
       newBalance = _.isFinite(this.balance) ? this.balance : '0';

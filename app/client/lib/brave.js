@@ -59,17 +59,27 @@ window.globalPw = new ReactiveVar();
 bravePasswordFlow = () => {
   web3.eth.getAccounts((err, accounts) => {
     if (accounts.length === 0) {
-      EthElements.Modal.question({
-        template: 'views_modals_makePassword',
-        ok: false,
-        cancel: false
-      });
+      EthElements.Modal.question(
+        {
+          template: 'views_modals_makePassword',
+          ok: false,
+          cancel: false
+        },
+        {
+          closeable: false
+        }
+      );
     } else {
-      EthElements.Modal.question({
-        template: 'views_modals_enterPassword',
-        ok: false,
-        cancel: false
-      });
+      EthElements.Modal.question(
+        {
+          template: 'views_modals_enterPassword',
+          ok: false,
+          cancel: false
+        },
+        {
+          closeable: false
+        }
+      );
     }
 
     let lastCb = () => {};
@@ -85,3 +95,16 @@ bravePasswordFlow = () => {
     };
   });
 };
+
+Meteor.startup(() => {
+  EthElements.Modal.question(
+    {
+      template: 'views_modals_loading2',
+      ok: false,
+      cancel: false
+    },
+    {
+      closeable: false
+    }
+  );
+});
