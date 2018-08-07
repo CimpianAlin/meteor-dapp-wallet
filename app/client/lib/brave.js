@@ -97,6 +97,7 @@ bravePasswordFlow = () => {
 };
 
 Meteor.startup(() => {
+  if (window.globalReady.get()) return;
   EthElements.Modal.question(
     {
       template: 'views_modals_loading2',
