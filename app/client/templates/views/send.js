@@ -816,7 +816,8 @@ function simpleSendTransactionCb(error, txHash, tx) {
   if (error) {
     console.log('Error from simple sendTransaction: ', error, txHash);
 
-    if (error.message.match(/authentication.*unlock/)) {
+    // disable the unlock logic in favor of storing one password for everything
+    if (false && error.message.match(/authentication.*unlock/)) {
       EthElements.Modal.question(
         {
           template: 'views_modals_unlockAccount',
@@ -824,14 +825,10 @@ function simpleSendTransactionCb(error, txHash, tx) {
             from: tx.from
           },
           ok: function(pw) {
-            if (window.chrome && window.chrome.ipcRenderer) {
-              window.chrome.ipcRenderer.send(
-                'eth-wallet-unlock-account',
-                JSON.stringify([pw, tx])
-              );
-            } else {
-              console.error('no ipcRenderer, can not unlock account');
-            }
+            braveIpc.send(
+              'eth-wallet-unlock-account',
+              JSON.stringify([pw, tx])
+            );
           },
           cancel: true
         },
@@ -864,23 +861,23 @@ function simpleSendTransactionCb(error, txHash, tx) {
   FlowRouter.go('dashboard');
 }
 
-window.chrome &&
-  window.chrome.ipcRenderer &&
-  window.chrome.ipcRenderer.on('eth-wallet-retry-tx', function(e, txString) {
-    const tx = JSON.parse(txString);
-    web3.eth.sendTransaction(tx, function(error, txHash) {
-      simpleSendTransactionCb(error, txHash, tx);
-    });
+braveIpc.on('eth-wallet-retry-tx', function(e, txString) {
+  const tx = JSON.parse(txString);
+  web3.eth.sendTransaction(tx, function(error, txHash) {
+    simpleSendTransactionCb(error, txHash, tx);
   });
+});
 
-window.chrome &&
-  window.chrome.ipcRenderer &&
-  window.chrome.ipcRenderer.on('eth-wallet-notification-error', function(
-    e,
-    message
-  ) {
-    GlobalNotification.error({
-      content: message,
-      duration: 8
-    });
+braveIpc.on('eth-wallet-notification-error', function(e, message) {
+  GlobalNotification.error({
+    content: message,
+    duration: 8
   });
+});
+
+const originalFn = Template.dapp_addressInput.__helpers.get(
+  'additionalAttributes'
+);
+Template.dapp_addressInput.__helpers.set('additionalAttributes', () => {
+  return Object.assign({ autocomplete: 'off' }, originalFn());
+});

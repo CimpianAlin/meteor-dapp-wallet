@@ -46,7 +46,7 @@
                         <input type="text" name="amount" class="dapp-large" value="{{clearAmountFromChars (formatNumberByDecimals sendAllAmount tokenDecimals)}}" disabled>
                     {{/if}}
                 {{else}}
-                    <input type="text" min="0" step="any" name="amount" placeholder="0.0" class="dapp-large" pattern="[0-9\.,]*">
+                    <input type="text" min="0" step="any" name="amount" placeholder="0.0" class="dapp-large" pattern="[0-9\.,]*" autocomplete="off">
                 {{/if}}
 
                 <br>

@@ -43,3 +43,45 @@ Meteor.startup(function() {
     }
   });
 });
+
+braveIpc = {
+  on: (...args) => {
+    if (window.chrome && window.chrome.ipcRenderer)
+      window.chrome.ipcRenderer.on(...args);
+  },
+  send: (...args) => {
+    if (window.chrome && window.chrome.ipcRenderer)
+      window.chrome.ipcRenderer.send(...args);
+  }
+};
+
+window.globalPw = new ReactiveVar();
+bravePasswordFlow = () => {
+  web3.eth.getAccounts((err, accounts) => {
+    if (accounts.length === 0) {
+      EthElements.Modal.question({
+        template: 'views_modals_makePassword',
+        ok: false,
+        cancel: false
+      });
+    } else {
+      EthElements.Modal.question({
+        template: 'views_modals_enterPassword',
+        ok: false,
+        cancel: false
+      });
+    }
+
+    let lastCb = () => {};
+    braveIpc.on('eth-wallet-unlock-account-result', (e, result) => {
+      const res = JSON.parse(result);
+      if (res.error) lastCb(res.error);
+      else lastCb(null, true);
+    });
+
+    this.braveCheckPassword = (pw, cb) => {
+      lastCb = cb;
+      braveIpc.send('eth-wallet-unlock-account', accounts[0], pw);
+    };
+  });
+};

@@ -141,8 +141,11 @@ var connect = function() {
             console.log('Error: ', error);
             connect(); // retry
           });
+
+        bravePasswordFlow();
       } else {
-        showModal();
+        console.log('Could not connect to geth, retrying in 3 seconds');
+        Meteor.setTimeout(connect, 3000);
       }
     })
     .catch(function(error) {
@@ -153,7 +156,8 @@ var connect = function() {
           .toLowerCase()
           .includes('connection not open')
       ) {
-        showModal();
+        console.log('Could not connect to geth, retrying in 3 seconds');
+        Meteor.setTimeout(connect, 3000);
       } else {
         // retry
         connect();

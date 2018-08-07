@@ -147,16 +147,7 @@ Template['layout_header'].events({
   'click .new-wallet a': function(e) {
     e.preventDefault();
 
-    EthElements.Modal.question({
-      template: 'views_modals_createAccount',
-      data: {},
-      ok: function(password) {
-        window.chrome &&
-          window.chrome.ipcRenderer &&
-          window.chrome.ipcRenderer.send('eth-wallet-create-wallet', password);
-      },
-      cancel: true
-    });
+    braveIpc.send('eth-wallet-create-wallet', globalPw.get());
 
     return false;
   }

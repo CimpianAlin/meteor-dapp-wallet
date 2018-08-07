@@ -101,6 +101,14 @@
         "title": "Create a new wallet",
         "text":
           "Please pick a password for the new wallet. You would need it to unlock the wallet every time you move money from it."
+      },
+      "makePassword": {
+        "title": "Create a new password",
+        "text": "The password will be used to encrypt wallets"
+      },
+      "enterPassword": {
+        "title": "Unlock account",
+        "text": "Enter the password to decrypt wallets"
       }
     },
     "accounts": {
