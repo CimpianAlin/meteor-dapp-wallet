@@ -37,7 +37,7 @@ Template['elements_balance'].helpers({
       else if (EthTools.getUnit() === 'ether')
         return EthTools.formatBalance(
           balance,
-          this.showAllDecimals ? '0,0.00[0000000000000000]' : '0,0.00'
+          this.showAllDecimals ? '0,0.00[0000000000000000]' : '0,0.00[000]'
         );
       else if (EthTools.getUnit() === 'finney')
         return EthTools.formatBalance(
