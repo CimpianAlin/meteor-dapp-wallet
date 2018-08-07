@@ -47,6 +47,7 @@
     @defaultPaddingVertical*2;
   max-width: none;
   padding-top: 287px;
+  position: static !important;
 
   .dapp-container {
     max-width: none;
@@ -68,6 +69,13 @@
     padding-right: @gridWidth * 0.5;
     padding-left: @gridWidth * 0.5;
   }
+}
+
+body.blur .dapp-content {
+  -webkit-filter: blur(4px);
+  -moz-filter: blur(4px);
+  -ms-filter: blur(4px);
+  filter: blur(4px);
 }
 
 .drag-bar {
