@@ -48,10 +48,18 @@
         <h3 class="balance">{{i18n 'wallet.app.texts.balance'}}</h3>
         <div class="actions-wrapper">
           <h3>{{i18n 'wallet.app.texts.actions'}}</h3>
-          <a class="metamask" href="#">
-            <span>{{i18n 'wallet.app.texts.enableMetaMask'}}</span>
-            <img class="metamask-image" src="../../../eth_icons/metamask.svg">
-          </a>
+          {{#if $eq ($.Session.get "metamask") "disabled"}}
+            <a class="metamask" href="#">
+                <span>{{i18n 'wallet.app.texts.enableMetaMask'}}</span>
+                <img class="metamask-image" src="../../../eth_icons/metamask.svg">
+            </a>
+        {{else}}
+            {{#if $eq ($.Session.get "metamask") "enabled" }}
+                <span class="metamask"></span>
+            {{else}}
+                <span class="metamask">Metamask is enabled</span>
+            {{/if}}
+        {{/if}}
         </div>
         <ul class="nav">
             <li>

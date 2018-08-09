@@ -150,5 +150,13 @@ Template['layout_header'].events({
     braveIpc.send('eth-wallet-create-wallet', globalPw.get());
 
     return false;
+  },
+  'click a.metamask': function(e) {
+    e.preventDefault();
+    Session.set('metamask', 'enabling');
+    Meteor.setTimeout(() => {
+      Session.set('metamask', 'enabled');
+    }, 10 * 1000);
+    braveIpc.send('eth-wallet-enable-metamask');
   }
 });

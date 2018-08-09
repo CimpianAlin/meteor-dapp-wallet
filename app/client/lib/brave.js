@@ -122,3 +122,10 @@ braveIpc.on('eth-wallet-new-wallet', (e, address) => {
     }
   );
 });
+
+Session.setDefault('metamask', 'enabled');
+braveIpc.on('eth-wallet-metamask-state', (e, state) => {
+  Session.set('metamask', state);
+});
+
+braveIpc.send('eth-wallet-get-metamask-state');
