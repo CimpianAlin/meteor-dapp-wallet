@@ -97,7 +97,7 @@ bravePasswordFlow = () => {
 };
 
 Meteor.startup(() => {
-  if (window.globalReady.get()) return;
+  if (globalReady.get()) return;
   EthElements.Modal.question(
     {
       template: 'views_modals_loading2',
@@ -106,6 +106,19 @@ Meteor.startup(() => {
     },
     {
       closeable: false
+    }
+  );
+});
+
+braveIpc.on('eth-wallet-new-wallet', (e, address) => {
+  EthAccounts.upsert(
+    { address },
+    {
+      $set: {
+        address,
+        new: true,
+        balance: '0'
+      }
     }
   );
 });

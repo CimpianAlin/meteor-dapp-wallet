@@ -143,7 +143,7 @@ var connect = function() {
           });
 
         bravePasswordFlow();
-        window.globalReady.set(true);
+        globalReady.set(true);
       } else {
         console.log('Could not connect to geth, retrying in 3 seconds');
         Meteor.setTimeout(connect, 3000);
@@ -184,7 +184,7 @@ if (window.chrome && window.chrome.ipcRenderer) {
   updateBATAddress();
 }
 
-window.globalReady = new ReactiveVar(false);
+globalReady = new ReactiveVar(false);
 Meteor.startup(function() {
   // delay so we make sure the data is already loaded from the indexedDB
   // TODO improve persistent-minimongo2 ?

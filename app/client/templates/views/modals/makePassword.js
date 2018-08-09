@@ -8,6 +8,7 @@ Template['views_modals_makePassword'].events({
       Template.instance().errors.set("Your passwords don't match");
     } else {
       window.globalPw.set(pw);
+      braveIpc.send('eth-wallet-create-wallet', globalPw.get());
       EthElements.Modal.hide();
     }
 
