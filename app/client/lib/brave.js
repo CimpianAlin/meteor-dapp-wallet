@@ -129,3 +129,10 @@ braveIpc.on('eth-wallet-metamask-state', (e, state) => {
 });
 
 braveIpc.send('eth-wallet-get-metamask-state');
+
+Session.setDefault('keysPath', '');
+braveIpc.on('eth-wallet-keys-path', (e, path) => {
+  Session.set('keysPath', path);
+});
+
+braveIpc.send('eth-wallet-get-keys-path');

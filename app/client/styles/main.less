@@ -48,6 +48,7 @@
   max-width: none;
   padding-top: 287px;
   position: static !important;
+  flex: 1;
 
   .dapp-container {
     max-width: none;
@@ -71,11 +72,17 @@
   }
 }
 
-body.blur .dapp-content {
+body.blur .dapp-main-container {
   -webkit-filter: blur(4px);
   -moz-filter: blur(4px);
   -ms-filter: blur(4px);
   filter: blur(4px);
+}
+
+.dapp-main-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 .drag-bar {
@@ -1100,4 +1107,20 @@ body {
 
 .dapp-modal-container {
   min-width: 600px !important;
+}
+
+.backup-info {
+  width: 100%;
+  height: auto;
+  padding: 1em 2em;
+  margin-bottom: 0;
+  margin-top: 2em;
+  font-size: 0.9em;
+
+  background: white;
+  color: #777;
+
+  pre {
+    display: inline;
+  }
 }
