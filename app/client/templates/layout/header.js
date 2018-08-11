@@ -147,7 +147,8 @@ Template['layout_header'].events({
   'click .new-wallet a': function(e) {
     e.preventDefault();
 
-    braveIpc.send('eth-wallet-create-wallet', globalPw.get());
+    if (globalReady.get())
+      braveIpc.send('eth-wallet-create-wallet', globalPw.get());
 
     return false;
   },
