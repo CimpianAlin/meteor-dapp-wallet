@@ -57,43 +57,53 @@ braveIpc = {
 
 window.globalPw = new ReactiveVar();
 bravePasswordFlow = () => {
-  web3.eth.getAccounts((err, accounts) => {
-    if (accounts.length === 0) {
-      EthElements.Modal.question(
-        {
-          template: 'views_modals_makePassword',
-          ok: false,
-          cancel: false
-        },
-        {
-          closeable: false
-        }
-      );
-    } else {
-      EthElements.Modal.question(
-        {
-          template: 'views_modals_enterPassword',
-          ok: false,
-          cancel: false
-        },
-        {
-          closeable: false
-        }
-      );
-    }
+  if (window.localStorage.getItem('pw-hash') === null) {
+    EthElements.Modal.question(
+      {
+        template: 'views_modals_makePassword',
+        ok: false,
+        cancel: false
+      },
+      {
+        closeable: false
+      }
+    );
+  } else {
+    EthElements.Modal.question(
+      {
+        template: 'views_modals_enterPassword',
+        ok: false,
+        cancel: false
+      },
+      {
+        closeable: false
+      }
+    );
+  }
 
-    let lastCb = () => {};
-    braveIpc.on('eth-wallet-unlock-account-result', (e, result) => {
-      const res = JSON.parse(result);
-      if (res.error) lastCb(res.error);
-      else lastCb(null, true);
-    });
-
-    this.braveCheckPassword = (pw, cb) => {
-      lastCb = cb;
-      braveIpc.send('eth-wallet-unlock-account', accounts[0], pw);
-    };
+  let lastCb = () => {};
+  braveIpc.on('eth-wallet-sha3-hash', (e, hash) => {
+    lastCb(hash);
   });
+
+  this.braveCheckPassword = (pw, cb) => {
+    lastCb = hash => {
+      if (hash === localStorage.getItem('pw-hash')) {
+        cb(null, true);
+      } else {
+        cb('Incorrect password');
+      }
+    };
+    braveIpc.send('eth-wallet-get-sha3-hash', pw);
+  };
+
+  this.braveStorePassword = (pw, cb) => {
+    lastCb = hash => {
+      localStorage.setItem('pw-hash', hash);
+    };
+
+    braveIpc.send('eth-wallet-get-sha3-hash', pw);
+  };
 };
 
 Meteor.startup(() => {

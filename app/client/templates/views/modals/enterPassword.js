@@ -9,7 +9,7 @@ Template['views_modals_enterPassword'].events({
         window.globalPw.set(pw);
         EthElements.Modal.hide();
       } else {
-        t.errors.set('Wrong password');
+        t.errors.set(err);
       }
     });
 
