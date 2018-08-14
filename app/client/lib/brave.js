@@ -127,6 +127,7 @@ braveIpc.on('eth-wallet-new-wallet', (e, address) => {
       $set: {
         address,
         new: true,
+        type: 'account',
         balance: '0'
       }
     }

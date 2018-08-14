@@ -29,7 +29,7 @@ updateBalances = function() {
   // go through all existing accounts, for each token
   _.each(walletsAndContracts, function(account) {
     if (account.address) {
-      web3.eth.getBalance(account.address, function(err, res) {
+      window.web3.eth.getBalance(account.address, function(err, res) {
         if (!err) {
           // is of type wallet
           if (account.creationBlock) {

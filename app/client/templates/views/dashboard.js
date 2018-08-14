@@ -35,10 +35,7 @@ Template['views_dashboard'].helpers({
     */
   accounts: function() {
     // balance need to be present, to show only full inserted accounts (not ones added by mist.requestAccount)
-    var accounts = EthAccounts.find(
-      { name: { $exists: true } },
-      { sort: { name: 1 } }
-    ).fetch();
+    var accounts = EthAccounts.find({}, { sort: { new: 1, name: 1 } }).fetch();
 
     accounts.sort(Helpers.sortByBalance);
 

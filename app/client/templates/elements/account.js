@@ -74,24 +74,6 @@ Template['elements_account'].helpers({
     return this.name || TAPi18n.__('wallet.accounts.defaultName');
   },
   /**
-    Account was just added. Return true and remove the "new" field.
-
-    @method (new)
-    */
-  new: function() {
-    if (this.new) {
-      // remove the "new" field
-      var id = this._id;
-      Meteor.setTimeout(function() {
-        EthAccounts.update(id, { $unset: { new: '' } });
-        Wallets.update(id, { $unset: { new: '' } });
-        CustomContracts.update(id, { $unset: { new: '' } });
-      }, 1000);
-
-      return true;
-    }
-  },
-  /**
     Should the wallet show disabled
 
     @method (creating)
@@ -127,14 +109,17 @@ Template['elements_account'].helpers({
     return blocksForConfirmation >= confirmations && confirmations >= 0
       ? {
           confirmations: confirmations,
-          percent: confirmations / blocksForConfirmation * 100
+          percent: (confirmations / blocksForConfirmation) * 100
         }
       : false;
-  },
+  }
+});
+
+Template['elements_account_sub'].helpers({
   /**
-    Displays ENS names with triangles
-    @method (nameDisplay)
-    */
+     Displays ENS names with triangles
+     @method (nameDisplay)
+  */
   displayName: function() {
     return this.ens
       ? this.name
@@ -145,9 +130,9 @@ Template['elements_account'].helpers({
       : this.name;
   },
   /**
-    Adds class about ens
-    @method (ensClass)
-    */
+     Adds class about ens
+     @method (ensClass)
+  */
   ensClass: function() {
     return this.ens ? 'ens-name' : 'not-ens-name';
   }
