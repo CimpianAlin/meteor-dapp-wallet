@@ -139,7 +139,7 @@ Template['layout_header'].helpers({
   },
   goToSendBrave: function() {
     FlowRouter.watchPathChange();
-    return FlowRouter.path('sendTo', { address: window.batAddress.get() });
+    return FlowRouter.path('sendToBrave', { address: window.batAddress.get() });
   }
 });
 

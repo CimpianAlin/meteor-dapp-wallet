@@ -108,6 +108,16 @@ FlowRouter.route('/send/:address', {
   }
 });
 
+FlowRouter.route('/sendBrave/:address', {
+  name: 'sendToBrave',
+  action: function(params, queryParams) {
+    BlazeLayout.render('layout_main', {
+      header: 'layout_header',
+      main: 'views_send'
+    });
+  }
+});
+
 /**
 The send route.
 

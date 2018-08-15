@@ -192,22 +192,24 @@ Template['views_send'].onCreated(function() {
 Template['views_send'].onRendered(function() {
   var template = this;
 
-  // focus address input field
-  if (FlowRouter.getParam('address')) {
-    this.find('input[name="to"]').value = FlowRouter.getParam('address');
-    this.$('input[name="to"]').trigger('input');
-  } else if (!this.data) {
-    this.$('input[name="to"]').focus();
-  }
+  template.autorun(function(c) {
+    // focus address input field
+    if (FlowRouter.getParam('address')) {
+      template.find('input[name="to"]').value = FlowRouter.getParam('address');
+      template.$('input[name="to"]').trigger('input');
+    } else if (!this.data) {
+      template.$('input[name="to"]').focus();
+    }
 
-  // set the from
-  var from = FlowRouter.getParam('from');
-  if (from)
-    TemplateVar.setTo(
-      'select[name="dapp-select-account"].send-from',
-      'value',
-      FlowRouter.getParam('from')
-    );
+    // set the from
+    var from = FlowRouter.getParam('from');
+    if (from)
+      TemplateVar.setTo(
+        'select[name="dapp-select-account"].send-from',
+        'value',
+        FlowRouter.getParam('from')
+      );
+  });
 
   // initialize send view correctly when directly switching from deploy view
   template.autorun(function(c) {
