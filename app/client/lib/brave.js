@@ -57,52 +57,53 @@ braveIpc = {
 
 window.globalPw = new ReactiveVar();
 bravePasswordFlow = () => {
-  if (window.localStorage.getItem('pw-hash') === null) {
-    EthElements.Modal.question(
-      {
-        template: 'views_modals_makePassword',
-        ok: false,
-        cancel: false
-      },
-      {
-        closeable: false
-      }
-    );
-  } else {
-    EthElements.Modal.question(
-      {
-        template: 'views_modals_enterPassword',
-        ok: false,
-        cancel: false
-      },
-      {
-        closeable: false
-      }
-    );
-  }
+  let pwHash = null;
+  braveIpc.on('eth-wallet-password-hash', (e, hash) => {
+    if (!hash) {
+      EthElements.Modal.question(
+        {
+          template: 'views_modals_makePassword',
+          ok: false,
+          cancel: false
+        },
+        {
+          closeable: false
+        }
+      );
+    } else {
+      pwHash = hash;
+      EthElements.Modal.question(
+        {
+          template: 'views_modals_enterPassword',
+          ok: false,
+          cancel: false
+        },
+        {
+          closeable: false
+        }
+      );
+    }
+  });
+  braveIpc.send('eth-wallet-get-password-hash');
 
   let lastCb = () => {};
-  braveIpc.on('eth-wallet-sha3-hash', (e, hash) => {
-    lastCb(hash);
+  braveIpc.on('eth-wallet-compare-password-hash', (e, res) => {
+    lastCb(res);
   });
 
   this.braveCheckPassword = (pw, cb) => {
-    lastCb = hash => {
-      if (hash === localStorage.getItem('pw-hash')) {
+    lastCb = res => {
+      if (res) {
         cb(null, true);
       } else {
         cb('Incorrect password');
       }
     };
-    braveIpc.send('eth-wallet-get-sha3-hash', pw);
+    braveIpc.send('eth-wallet-get-compare-password-hash', pw, pwHash);
   };
 
   this.braveStorePassword = (pw, cb) => {
-    lastCb = hash => {
-      localStorage.setItem('pw-hash', hash);
-    };
-
-    braveIpc.send('eth-wallet-get-sha3-hash', pw);
+    braveIpc.send('eth-wallet-store-password-hash', pw);
   };
 };
 
