@@ -6,7 +6,7 @@ Update the peercount
 @method getPeerCount
 */
 var getPeerCount = function() {
-  web3.eth.net.getPeerCount().then(function(peerCount) {
+  window.web3.eth.net.getPeerCount().then(function(peerCount) {
     Session.set('peerCount', peerCount);
   });
 };
@@ -66,7 +66,7 @@ updateBalances = function() {
 
   _.each(creatingWallets, function(wallet) {
     // Fetches transactionReceipt looking for contractAddress
-    web3.eth
+    window.web3.eth
       .getTransactionReceipt(wallet.transactionHash)
       .then(function(receipt) {
         if (receipt && receipt.contractAddress !== null) {
@@ -162,7 +162,7 @@ observeLatestBlocks = function() {
   updateBalances();
 
   // GET the latest blockchain information
-  web3.eth.subscribe('newBlockHeaders', function(e, res) {
+  window.web3.eth.subscribe('newBlockHeaders', function(e, res) {
     if (!e) {
       updateBalances();
     }

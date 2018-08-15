@@ -80,7 +80,8 @@ var checkSync = function() {
           .toLowerCase()
           .includes('connection not open')
       ) {
-        showModal();
+        // retry in 2 seconds
+        Meteor.setTimeout(checkSync, 2000);
       } else {
         // retry
         checkSync();
