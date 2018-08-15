@@ -1,6 +1,6 @@
 <template name="layout_header">
     <div class="overlapping-header">
-        <div class="block-syncing {{#if TemplateVar.get 'syncing'}}syncing{{/if}}">
+        <div class="block-syncing {{#if $.Session.get 'syncing'}}syncing{{/if}}">
             {{#if isWalletMode}}
                 {{#if $eq ($.Session.get "network") "test"}}
                     <span class="private-chain" title="{{i18n 'wallet.app.texts.testnetExplain'}}">Test-net</span> &nbsp;&nbsp;
@@ -18,7 +18,7 @@
                     <span class="private-chain" title="{{i18n 'wallet.app.texts.testnetExplain'}}">Private-net</span> &nbsp;&nbsp;
                 {{/if}}
 
-                {{#with TemplateVar.get "syncing"}}
+                {{#with $.Session.get "syncing"}}
                     <span class="text">
                         <i class="icon-feed"></i> {{$.Session.get "peerCount"}} <span class="hide-on-small">{{i18n 'wallet.app.texts.peers'}}</span>
                         &nbsp;&nbsp;|&nbsp;&nbsp;

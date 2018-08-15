@@ -34,12 +34,15 @@ Meteor.Spinner.options = {
   left: '50%' // Left position relative to parent
 };
 
+let initSync = false;
 var checkSync = function() {
   // Stop app operation, when the node is syncing
   web3.eth
     .isSyncing()
     .then(function(syncing) {
       if (syncing === true) {
+        if (initSync) return;
+        initSync = true;
         console.time('nodeRestarted');
         console.log('Node started syncing, stopping app operation');
         web3.reset(true);
@@ -61,12 +64,12 @@ var checkSync = function() {
           syncing.highestBlock - syncing.currentBlock
         ).format('0,0');
 
-        TemplateVar.setTo('header nav', 'syncing', syncing);
+        Session.set('syncing', syncing);
       } else {
         console.timeEnd('nodeRestarted');
         console.log('Restart app operation again');
 
-        TemplateVar.setTo('header nav', 'syncing', false);
+        Session.set('syncing', false);
 
         // re-gain app operation
         connectToNode();
@@ -193,6 +196,7 @@ Meteor.startup(function() {
   Meteor.setTimeout(function() {
     connect();
     checkSync();
+    Meteor.setInterval(checkSync, 5000);
   }, 3000);
 
   Tracker.nonreactive(function() {
