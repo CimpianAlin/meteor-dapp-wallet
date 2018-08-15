@@ -10,19 +10,6 @@ FlowRouter.notFound = {
   }
 };
 
-// redirect on start to dahsboard on file protocol
-if (
-  location.origin === 'file://' ||
-  location.protocol === 'chrome-extension:'
-) {
-  FlowRouter.wait();
-  FlowRouter.initialize({ hashbang: true });
-
-  Meteor.startup(function() {
-    FlowRouter.go('dashboard');
-  });
-}
-
 FlowRouter.triggers.enter([
   function() {
     EthElements.Modal.hide();
@@ -33,12 +20,32 @@ FlowRouter.triggers.enter([
 
 // ROUTES
 
+FlowRouter.route('/', {
+  name: 'starting',
+  action: function() {
+    BlazeLayout.render('layout_main', {
+      header: 'views_modals_loading',
+      main: 'views_modals_loading'
+    });
+  }
+});
+
+// redirect on start to dahsboard on file protocol
+if (
+  location.origin === 'file://' ||
+  location.protocol === 'chrome-extension:'
+) {
+  FlowRouter.wait();
+  FlowRouter.initialize({ hashbang: true });
+  FlowRouter.go('/');
+}
+
 /**
 The receive route, showing the wallet overview
 
 @method dashboard
 */
-FlowRouter.route('/', {
+FlowRouter.route('/dashboard', {
   name: 'dashboard',
   action: function(params, queryParams) {
     BlazeLayout.render('layout_main', {

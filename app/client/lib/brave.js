@@ -57,6 +57,7 @@ braveIpc = {
 
 window.globalPw = new ReactiveVar();
 bravePasswordFlow = () => {
+  FlowRouter.go('/dashboard');
   let pwHash = null;
   braveIpc.on('eth-wallet-password-hash', (e, hash) => {
     if (!hash) {
@@ -106,20 +107,6 @@ bravePasswordFlow = () => {
     braveIpc.send('eth-wallet-store-password-hash', pw);
   };
 };
-
-Meteor.startup(() => {
-  if (globalReady.get()) return;
-  EthElements.Modal.question(
-    {
-      template: 'views_modals_loading2',
-      ok: false,
-      cancel: false
-    },
-    {
-      closeable: false
-    }
-  );
-});
 
 braveIpc.on('eth-wallet-new-wallet', (e, address) => {
   EthAccounts.upsert(
