@@ -139,6 +139,9 @@ Template['layout_header'].helpers({
   },
   goToSendBrave: function() {
     FlowRouter.watchPathChange();
+    if (!window.batAddress.get()) {
+      return FlowRouter.path('bravePaymentsNotice');
+    }
     return FlowRouter.path('sendToBrave', { address: window.batAddress.get() });
   }
 });

@@ -202,3 +202,13 @@ FlowRouter.route('/account/:address', {
     });
   }
 });
+
+FlowRouter.route('/bravePaymentsNotice', {
+  name: 'bravePaymentsNotice',
+  action: function() {
+    BlazeLayout.render('layout_main', {
+      header: 'layout_header',
+      main: 'brave_payments_notice'
+    });
+  }
+});

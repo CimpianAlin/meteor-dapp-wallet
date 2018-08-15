@@ -196,8 +196,8 @@ Meteor.startup(function() {
   Meteor.setTimeout(function() {
     connect();
     checkSync();
-    Meteor.setInterval(checkSync, 5000);
-  }, 3000);
+    Meteor.setInterval(checkSync, 2000);
+  }, 500);
 
   Tracker.nonreactive(function() {
     function observeCb() {
