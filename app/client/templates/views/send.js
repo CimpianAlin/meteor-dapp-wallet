@@ -769,14 +769,19 @@ Template['views_send'].events({
             contract: contract
           };
 
-          web3.eth
-            .sendTransaction(tx, function(error, txHash) {
-              TemplateVar.set(template, 'sending', false);
-              simpleSendTransactionCb(error, txHash, tx);
-            })
-            .on('receipt', function(receipt) {
-              console.log('Transaction receipt: ', receipt);
-            });
+          // unlock the transaction
+          unlockFollowupCb = () => {
+            web3.eth
+              .sendTransaction(tx, function(error, txHash) {
+                TemplateVar.set(template, 'sending', false);
+                simpleSendTransactionCb(error, txHash, tx);
+              })
+              .on('receipt', function(receipt) {
+                console.log('Transaction receipt: ', receipt);
+              });
+          };
+
+          braveIpc.send('eth-wallet-unlock-account', tx.from, globalPw.get());
         }
       };
 
@@ -875,6 +880,11 @@ braveIpc.on('eth-wallet-notification-error', function(e, message) {
     content: message,
     duration: 8
   });
+});
+
+let unlockFollowupCb = () => {};
+braveIpc.on('eth-wallet-unlock-account-result', () => {
+  unlockFollowupCb();
 });
 
 const originalFn = Template.dapp_addressInput.__helpers.get(
